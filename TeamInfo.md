@@ -1,4 +1,4 @@
-# team000-sample
+# James Bond
 
 ## Basic Information
 
@@ -24,5 +24,5 @@
 | Video Link  |      link_to_video     |
 
 ## Project Summary
-
-This is a summary of the project!
+### Title: Symplify
+The goal of our project is to help people find conditions they may have based on the data, as well as store and keep track of their own conditions, symptoms, and treatments. Our project will deduce a user’s most likely condition from a set of symptoms and provide information relating to the condition. With our complex feature, we will create a heat map on a world map to find which diseases are most popular in the world and display some information, so people can learn more about how their location may impact conditions. 
