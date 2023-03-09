@@ -91,7 +91,7 @@ Here is our analysis after adding an index on both Diagnosis trackable_name and 
 
 ## Query 2
 Here is our analysis before indexing. There is an index seen here because we have a foreign key:
-![Before Index 2](query1beforeindex.png)
+![Before Index 2](query2beforeindex.png)
 
 Here is our analysis after adding an index on Diagnosis trackable_name.
 ![Diag Name 2](query2index1.png)
