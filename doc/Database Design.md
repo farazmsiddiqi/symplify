@@ -77,7 +77,7 @@ LIMIT 15;
 
 # Indexing
 ## Query 1
-Here is our analysis before indexing. There is an index seen here because we have a foriegn key:
+Here is our analysis before indexing. There is an index seen here because we have a foreign key:
 ![Before Index](beforeidx.png)
 
 Here is our analysis after adding an index on Symptom trackable_name. We noticed that we were querying for many trackable_names such as Nausea and other Symptoms so we decided to index on the trackable_name to make diagnosis lookup faster. Now, the query only needs to look in this attribute instead of a full table. We saw a decrease in the upperbound table scan time as a result. That being said, this index did not have much effect on the overall querying time. 
@@ -88,3 +88,16 @@ Here is our analysis after adding an index on Diagnosis trackable_name. We notic
 
 Here is our analysis after adding an index on both Diagnosis trackable_name and Symptom trackable_name. Here, we decided to add both indices to see if we could generate a larger decrease in query time. Unfortunately, we did not see much of a decrease in query time after combining the two indices. It is worth noting that our original query time was pretty low, and our DDL is pretty efficient already. 
 ![Both name](query1index3.png)
+
+## Query 2
+Here is our analysis before indexing. There is an index seen here because we have a foreign key:
+![Before Index 2](query1beforeindex.png)
+
+Here is our analysis after adding an index on Diagnosis trackable_name.
+![Diag Name 2](query2index1.png)
+
+Here is our analysis after adding an index on Treatment trackable_name, trackable_value.
+![Treatment idx](query2index2.png)
+
+Here is our analysis after having an index on both Treatment trackable_name, trackable_value and having an index on Diagnosis trackable_name.
+![Both idx 2](query2index3.png)
