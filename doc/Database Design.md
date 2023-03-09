@@ -77,14 +77,14 @@ LIMIT 15;
 
 # Indexing
 ## Query 1
-Here is our analysis before indexing:
+Here is our analysis before indexing. There is an index seen here because we have a foriegn key:
 ![Before Index](beforeidx.png)
 
-Here is our analysis after adding an index on Symptom trackable_name.
+Here is our analysis after adding an index on Symptom trackable_name. We noticed that we were querying for many trackable_names such as Nausea and other Symptoms so we decided to index on the trackable_name to make diagnosis lookup faster. Now, the query only needs to look in this attribute instead of a full table. We saw a decrease in the upperbound table scan time as a result. That being said, this index did not have much effect on the overall querying time. 
 ![Symp name](query1index1.png)
 
-Here is our analysis after adding an index on Diagnosis trackable_name.
+Here is our analysis after adding an index on Diagnosis trackable_name. We noticed that the same was true with out Diagnosis table, and that we were querying for trackable_names here such as Depression. We used an index on trackable_name to avoid the query having to query the whole table. That being said, this index did not have much effect on the overall querying time. 
 ![Diag name](query1index2.png)
 
-Here is our analysis after adding an index on both Diagnosis trackable_name and Symptom trackable_name.
+Here is our analysis after adding an index on both Diagnosis trackable_name and Symptom trackable_name. Here, we decided to add both indices to see if we could generate a larger decrease in query time. Unfortunately, we did not see much of a decrease in query time after combining the two indices. It is worth noting that our original query time was pretty low, and our DDL is pretty efficient already. 
 ![Both name](query1index3.png)
