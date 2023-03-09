@@ -55,15 +55,16 @@ PRIMARY KEY (trackable_id)
 ```
 
 # Advanced Queries
-Please see doc/query1.png and doc/query2.png for output.
 ```SQL
 SELECT s.trackable_name as Symptom, COUNT(d.trackable_name) as NumDiagnoses
 FROM Symptom s LEFT JOIN Diagnosis d ON (s.trackable_id = d.trackable_id)
 GROUP BY s.trackable_name
 ORDER BY NumDiagnoses DESC
 LIMIT 15;
+```
+![Query 1](query1.png)
 
-
+```SQL
 SELECT d.trackable_name as Diagnosis, t.trackable_name as Treatment, COUNT(t.trackable_name) as NumTreatments, t.trackable_value as Dosage
 FROM Treatment t RIGHT JOIN Diagnosis d ON (t.trackable_id = d.trackable_id)
 WHERE t.trackable_name IS NOT NULL
@@ -71,3 +72,4 @@ GROUP BY d.trackable_name, t.trackable_name, t.trackable_value
 ORDER BY NumTreatments DESC
 LIMIT 15;
 ```
+![Query 2](query2.png)
