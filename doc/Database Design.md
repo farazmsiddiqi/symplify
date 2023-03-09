@@ -55,6 +55,7 @@ PRIMARY KEY (trackable_id)
 ```
 
 # Advanced Queries
+Please see doc/query1.png and doc/query2.png for output.
 ```SQL
 SELECT s.trackable_name as Symptom, COUNT(d.trackable_name) as NumDiagnoses
 FROM Symptom s LEFT JOIN Diagnosis d ON (s.trackable_id = d.trackable_id)
