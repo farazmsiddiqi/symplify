@@ -55,6 +55,7 @@ PRIMARY KEY (trackable_id)
 ```
 
 # Advanced Queries
+## Query 1
 ```SQL
 SELECT s.trackable_name as Symptom, COUNT(d.trackable_name) as NumDiagnoses
 FROM Symptom s LEFT JOIN Diagnosis d ON (s.trackable_id = d.trackable_id)
@@ -63,7 +64,7 @@ ORDER BY NumDiagnoses DESC
 LIMIT 15;
 ```
 ![Query 1](query1.png)
-
+## Query 2
 ```SQL
 SELECT d.trackable_name as Diagnosis, t.trackable_name as Treatment, COUNT(t.trackable_name) as NumTreatments, t.trackable_value as Dosage
 FROM Treatment t RIGHT JOIN Diagnosis d ON (t.trackable_id = d.trackable_id)
@@ -75,6 +76,15 @@ LIMIT 15;
 ![Query 2](query2.png)
 
 # Indexing
-
-(a) Here is our analysis before indexing:
+## Query 1
+Here is our analysis before indexing:
 ![Before Index](beforeidx.png)
+
+Here is our analysis after adding an index on Diagnosis trackable_name.
+![Diag name] (query1index1.png)
+
+Here is our analysis after adding an index on Symptom trackable_name.
+![Symp name] (query1index2.png)
+
+Here is our analysis after adding an index on both Diagnosis trackable_name and Symptom trackable_name.
+![Both name] (query1index3.png)
