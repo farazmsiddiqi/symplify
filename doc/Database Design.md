@@ -1,4 +1,4 @@
-## DDL Commands
+# DDL Commands
 ```SQL
 CREATE TABLE KaggleTopLevel (
 user_id VARCHAR(255) NOT NULL,
@@ -73,3 +73,8 @@ ORDER BY NumTreatments DESC
 LIMIT 15;
 ```
 ![Query 2](query2.png)
+
+# Indexing
+
+(a) Here is our analysis before indexing:
+![Before Index](beforeindex.png)
