@@ -81,10 +81,10 @@ Here is our analysis before indexing:
 ![Before Index](beforeidx.png)
 
 Here is our analysis after adding an index on Diagnosis trackable_name.
-![Diag name] (query1index1.png)
+![Diag name](query1index1.png)
 
 Here is our analysis after adding an index on Symptom trackable_name.
-![Symp name] (query1index2.png)
+![Symp name](query1index2.png)
 
 Here is our analysis after adding an index on both Diagnosis trackable_name and Symptom trackable_name.
-![Both name] (query1index3.png)
+![Both name](query1index3.png)
