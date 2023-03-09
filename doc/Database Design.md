@@ -77,4 +77,4 @@ LIMIT 15;
 # Indexing
 
 (a) Here is our analysis before indexing:
-![Before Index](beforeindex.png)
+![Before Index](beforeidx.png)
