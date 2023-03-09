@@ -1,5 +1,5 @@
 ## DDL Commands
-
+```SQL
 CREATE TABLE KaggleTopLevel (
 user_id VARCHAR(255) NOT NULL,
 age INT,
@@ -52,3 +52,4 @@ trackable_id INT NOT NULL,
 trackable_type VARCHAR(255),
 PRIMARY KEY (trackable_id)
 );
+```
