@@ -93,11 +93,11 @@ Here is our analysis after adding an index on both Diagnosis trackable_name and 
 Here is our analysis before indexing. There is an index seen here because we have a foreign key:
 ![Before Index 2](query2beforeindex.png)
 
-Here is our analysis after adding an index on Diagnosis trackable_name.
+Here is our analysis after adding an index on Diagnosis trackable_name. As shown below, we notice a slight decrease in time for the nested loop inner join. This is because we chose an attribute that we are joining on. That being said, this index did not have much effect on the overall querying time. 
 ![Diag Name 2](query2index1.png)
 
-Here is our analysis after adding an index on Treatment trackable_name, trackable_value.
+Here is our analysis after adding an index on Treatment trackable_name, trackable_value. Here, we decreased our table scan time slightly by specifying parts of the table that we were querying for using indexing. This slight increase in efficiency allows for our query time to increase overall. That being said, this index did not have much effect on the overall querying time. 
 ![Treatment idx](query2index2.png)
 
-Here is our analysis after having an index on both Treatment trackable_name, trackable_value and having an index on Diagnosis trackable_name.
+Here is our analysis after having an index on both Treatment trackable_name, trackable_value and having an index on Diagnosis trackable_name. Here, we did not see an increase in any section with our indexing. This may be because the attributes we chose to index were not used heavily in the query that we are using. It is worth noting that our original query time was pretty low, and our DDL is pretty efficient already. 
 ![Both idx 2](query2index3.png)
