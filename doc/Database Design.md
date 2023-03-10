@@ -65,8 +65,9 @@ ORDER BY NumDiagnoses DESC
 LIMIT 15;
 ```
 ![Query 1](query1.png)
-Determine the number of treatments related to each diagnosis, also displaying the dosage used.
+
 ## Query 2
+Determine the number of treatments related to each diagnosis, also displaying the dosage used.
 ```SQL
 SELECT d.trackable_name as Diagnosis, t.trackable_name as Treatment, COUNT(t.trackable_name) as NumTreatments, t.trackable_value as Dosage
 FROM Treatment t RIGHT JOIN Diagnosis d ON (t.trackable_id = d.trackable_id)
