@@ -56,6 +56,7 @@ PRIMARY KEY (trackable_id)
 
 # Advanced Queries
 ## Query 1
+Determine the number of diagnoses related to each sympton.
 ```SQL
 SELECT s.trackable_name as Symptom, COUNT(d.trackable_name) as NumDiagnoses
 FROM Symptom s LEFT JOIN Diagnosis d ON (s.trackable_id = d.trackable_id)
@@ -64,6 +65,7 @@ ORDER BY NumDiagnoses DESC
 LIMIT 15;
 ```
 ![Query 1](query1.png)
+Determine the number of treatments related to each diagnosis, also displaying the dosage used.
 ## Query 2
 ```SQL
 SELECT d.trackable_name as Diagnosis, t.trackable_name as Treatment, COUNT(t.trackable_name) as NumTreatments, t.trackable_value as Dosage
@@ -101,3 +103,6 @@ Here is our analysis after adding an index on Treatment trackable_name, trackabl
 
 Here is our analysis after having an index on both Treatment trackable_name, trackable_value and having an index on Diagnosis trackable_name. Here, we did not see an increase in any section with our indexing. This may be because the attributes we chose to index were not used heavily in the query that we are using. It is worth noting that our original query time was pretty low, and our DDL is pretty efficient already. 
 ![Both idx 2](query2index3.png)
+
+## Conclusion
+Overall, our indexing strategies were not effective in improving performance. This might be due to how both our queries are structured, performing joins on some columns while directly querying and performing aggregation on other unrelated columns. Aggregation might also make it harder for the SQL engine to apply indexing as there is no obvious pattern in the query results.
