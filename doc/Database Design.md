@@ -119,5 +119,6 @@ Please see the below screenshots to view the schemas for the implemented tables,
 ![schemas2](schemas2.PNG)
 
 ![query counts](count_queries.PNG)
+
 This shows our connection.
 ![connection](connection.PNG)
