@@ -107,3 +107,12 @@ Here is our analysis after having an index on both Treatment trackable_name, tra
 
 ## Conclusion
 Overall, our indexing strategies were not effective in improving performance. This might be due to how both our queries are structured, performing joins on some columns while directly querying and performing aggregation on other unrelated columns. Aggregation might also make it harder for the SQL engine to apply indexing as there is no obvious pattern in the query results.
+
+
+
+## Table Implementation / Insertion
+Please see the below screenshots to view the schemas for the implemented tables, as well as the row counts for each table. 
+![tables](tables.png)
+![schemas](schemas.png)
+![schemas2](schemas2.png)
+![query counts](count_queries.png)
