@@ -112,7 +112,7 @@ Overall, our indexing strategies were not effective in improving performance. Th
 
 ## Table Implementation / Insertion
 Please see the below screenshots to view the schemas for the implemented tables, as well as the row counts for each table. 
-![tables](tables.png)
-![schemas](schemas.png)
-![schemas2](schemas2.png)
-![query counts](count_queries.png)
+![tables](tables.PNG)
+![schemas](schemas.PNG)
+![schemas2](schemas2.PNG)
+![query counts](count_queries.PNG)
