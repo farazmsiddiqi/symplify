@@ -121,4 +121,5 @@ Please see the below screenshots to view the schemas for the implemented tables,
 ![query counts](count_queries.PNG)
 
 This shows our connection.
+
 ![connection](connection.PNG)
