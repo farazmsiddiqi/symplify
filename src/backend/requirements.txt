@@ -2,3 +2,4 @@ Flask
 mysqlclient
 flask-mysqldb
 python-dotenv
+requests
