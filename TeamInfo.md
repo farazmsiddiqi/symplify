@@ -12,8 +12,7 @@
 | Member1     |  farazms2@illinois.edu |
 | Member2     |       Efthalia Karas.  |
 | Member2     |   effiek2@illinois.edu |
-| Member3     |       Runlin Zheng     |
-| Member3     |  runlinz2@illinois.edu |
+
 
 ## Project Information
 
