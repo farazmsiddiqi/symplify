@@ -2,9 +2,10 @@ from flask import Flask, request
 from flask_mysqldb import MySQL
 import os
 from dotenv import load_dotenv
-import requests
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 load_dotenv()
 SQL_INSTANCE_PASS = os.getenv('PASSWORD')
@@ -33,6 +34,26 @@ def hello_world():
     rv = cur.fetchall()
     return str(rv)
 
+@app.route('/user_count', methods=["GET"])
+def get_user_size():
+    cur = mysql.connection.cursor()
+    query = f"SELECT COUNT(user_id) FROM User"
+    
+    try:
+        cur.execute(query)
+    except Exception as e:
+        return str(e), 500
+    
+    rv = cur.fetchall()
+    cur.close()
+    #for char in str(rv):
+    #    if char not in ['0','1','2','3','4','5','6','7','8','9']:
+    s = str(rv)
+    s = s.replace('(', '').replace(')', '').replace(',', '')
+    if not s:
+        s = 0
+    return str(s)
+
 @app.route('/insert', methods=["POST"])
 def insert_records():
   data = request.get_json()
@@ -54,6 +75,7 @@ def insert_records():
   cur = mysql.connection.cursor()
   cur.execute('SELECT * FROM Symptom')
   rv = cur.fetchall()
+  #cur.close()
   return str(rv)
 
 
@@ -138,6 +160,8 @@ def handle_user_table(user_id, username, password, email):
   cur.close()
 
   return "Success", 200
+
+
 
 if __name__ == '__main__':
     app.run()
