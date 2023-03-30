@@ -54,26 +54,27 @@ PRIMARY KEY (trackable_id)
 );
 
 CREATE TABLE User (
-	user_id VARCHAR(255) NOT NULL,
-	username VARCHAR(255),
-	password VARCHAR(255),
-	email VARCHAR(255),
-	PRIMARY KEY(user_id)
+user_id VARCHAR(255) NOT NULL,
+username VARCHAR(255),
+password VARCHAR(255),
+email VARCHAR(255),
+PRIMARY KEY(user_id)
 );
 
 CREATE TABLE Demographics (
-	user_id VARCHAR(255),
-	age INT,
-	sex VARCHAR(255),
-	country VARCHAR(255),
-	FOREIGN KEY (user_id) REFERENCES User(user_id)
+user_id VARCHAR(255),
+age INT,
+sex VARCHAR(255),
+country VARCHAR(255),
+FOREIGN KEY (user_id) REFERENCES User(user_id),
+PRIMARY KEY(user_id)
 );
 
 CREATE TABLE UserTracks (
-	trackable_id INT,
-	user_id VARCHAR(255),
-	FOREIGN KEY (trackable_id) REFERENCES Trackable(trackable_id),
-	FOREIGN KEY (user_id) REFERENCES User(user_id)
+trackable_id INT,
+user_id VARCHAR(255),
+FOREIGN KEY (trackable_id) REFERENCES Trackable(trackable_id),
+FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
 ```
