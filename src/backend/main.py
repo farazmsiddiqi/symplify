@@ -40,7 +40,7 @@ def insert_records():
 
   weak_trackable_table_names = ['Condition', 'Symptom', 'Treatment', 'Tag', 'Weather']
 
-  if table_name == "User": 
+  if table_name == "User":
     return handle_user_table(data['user_id'], data['username'], data['password'], data['email'])
   elif table_name in weak_trackable_table_names:
     return handle_weak_trackable_tables(table_name, data['trackable_id'], data['trackable_name'], data['trackable_value'])
