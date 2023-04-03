@@ -1,3 +1,4 @@
 .DS_Store
 /src/frontend/symplify/node_modules
 .env
+.venv

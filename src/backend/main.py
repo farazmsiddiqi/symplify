@@ -34,6 +34,25 @@ def hello_world():
     rv = cur.fetchall()
     return str(rv)
 
+@app.route('/search_symptom', methods=["GET"])
+def search_sympton():
+
+    data = request.get_json()
+    symptom_name = data["symptomSearch"]
+
+    cur = mysql.connection.cursor()
+    query = f"SELECT trackable_name FROM Symptom WHERE trackable_name LIKE '{symptom_name}%'"
+
+    try:
+        cur.execute(query)
+    except Exception as e:
+        return str(e), 500
+    
+    rv = cur.fetchall()
+    cur.close()
+    s = str(rv)
+    return s
+
 @app.route('/user_count', methods=["GET"])
 def get_user_size():
     cur = mysql.connection.cursor()
