@@ -1,7 +1,7 @@
 # DDL Commands
 ```SQL
 CREATE TABLE KaggleTopLevel (
-user_id VARCHAR(255) NOT NULL,
+username VARCHAR(255) NOT NULL,
 age INT,
 sex VARCHAR(255),
 country VARCHAR(255),
@@ -10,7 +10,7 @@ trackable_id INT,
 trackable_type VARCHAR(255),
 trackable_name VARCHAR(255),
 trackable_value VARCHAR(255),
-PRIMARY KEY(user_id)
+PRIMARY KEY(username)
 );
 
 CREATE TABLE Diagnosis (
@@ -54,27 +54,24 @@ PRIMARY KEY (trackable_id)
 );
 
 CREATE TABLE User (
-user_id VARCHAR(255) NOT NULL,
 username VARCHAR(255) NOT NULL,
 password VARCHAR(255) NOT NULL,
 email VARCHAR(255),
-PRIMARY KEY(user_id, username)
+PRIMARY KEY(username)
 );
 
 CREATE TABLE Demographics (
-user_id VARCHAR(255) NOT NULL,
 username VARCHAR(255) NOT NULL,
 age INT,
 sex VARCHAR(255),
 country VARCHAR(255),
-FOREIGN KEY (user_id, username) REFERENCES User(user_id, username));
+FOREIGN KEY (username) REFERENCES User(username));
 
 CREATE TABLE UserTracks (
 trackable_id INT NOT NULL,
-user_id VARCHAR(255) NOT NULL,
 username VARCHAR(255) NOT NULL,
 FOREIGN KEY (trackable_id) REFERENCES Trackable(trackable_id),
-FOREIGN KEY (user_id, username) REFERENCES User(user_id, username)
+FOREIGN KEY (username) REFERENCES User(username)
 );
 
 ```
