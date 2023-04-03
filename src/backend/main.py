@@ -245,7 +245,7 @@ def handle_weak_trackable_tables(table_name, trackable_id, trackable_name, track
 
   return "Success", 200
 
-def handle_user_table(user_id, username, password, email):
+def handle_user_table(username, password, email):
   cur = mysql.connection.cursor()
   query = f"INSERT INTO User (username, password, email) VALUES ('{username}', '{password}', '{email}')"
   
