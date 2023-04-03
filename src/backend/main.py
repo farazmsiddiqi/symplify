@@ -8,9 +8,9 @@ from flask_session import Session
 
 app = Flask(__name__)
 
-SECRET_KEY=b'\xcf\xc7\xb3\xe9P\xb7\x9c\x96\xfc\x85\xa9\xd1'
+SECRET_KEY=b'xcfxc7xb3xe9Pxb7x9cx96xfcx85xa9xd1'
 SESSION_TYPE = "filesystem"
-
+app.config.from_object(__name__)
 Session(app)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
