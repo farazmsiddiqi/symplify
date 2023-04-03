@@ -41,7 +41,7 @@ def search_sympton():
     symptom_name = data["symptomSearch"]
 
     cur = mysql.connection.cursor()
-    query = f"SELECT trackable_name FROM Symptom WHERE trackable_name LIKE '{symptom_name}%'"
+    query = f"SELECT trackable_name FROM Symptom WHERE trackable_name LIKE '{symptom_name}%' LIMIT 10"
 
     try:
         cur.execute(query)
