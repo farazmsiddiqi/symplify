@@ -1,12 +1,18 @@
-from flask import Flask, request
+from flask import Flask, request, session
 from flask_mysqldb import MySQL
 import os
 import json
 from dotenv import load_dotenv
 from flask_cors import CORS
+from flask_session import Session
 
 app = Flask(__name__)
-CORS(app)
+
+SECRET_KEY=b'\xcf\xc7\xb3\xe9P\xb7\x9c\x96\xfc\x85\xa9\xd1'
+SESSION_TYPE = "filesystem"
+
+Session(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 load_dotenv()
 SQL_INSTANCE_PASS = os.getenv('PASSWORD')
@@ -35,6 +41,60 @@ def hello_world():
     rv = cur.fetchall()
     return str(rv)
 
+@app.route("/login", methods = ["GET", "POST"])
+def login():
+    data = request.get_json()
+    username = data["username"]
+    password = data["password"]
+
+    cur = mysql.connection.cursor()
+    query = f"SELECT * FROM User WHERE username = '{username}' AND password = '{password}'"
+
+    try:
+        cur.execute(query)
+    except Exception as e:
+        return str(e), 500
+    
+    rv = cur.fetchall()
+    cur.close()
+
+    if len(rv) <= 0:
+       return "user does not exist", 403
+    session["username"] = username
+    return "success!", 200
+
+
+
+@app.route("/update_user", methods = ["POST"])
+def update_user():
+    
+    data = request.get_json()
+    new_age = data["age"]
+    new_sex = data["sex"]
+    new_country = data["country"]
+
+    if session.get("user_id") is None:
+       return "user is not logged in", 500
+
+    username = session.get("username")
+    cur = mysql.connection.cursor()
+
+    query = ""
+    if new_age is not None:
+       query = f"UPDATE Demographics SET age = '{new_age}' WHERE username = '{username}'"
+    elif new_sex is not None:
+       query = f"UPDATE Demographics SET sex = '{new_sex}' WHERE username = '{username}'"
+    else:
+       query = f"UPDATE Demographics SET country = '{new_country}' WHERE username = '{username}'"
+    
+    try:
+        cur.execute(query)
+    except Exception as e:
+        return str(e), 500
+    cur.close()
+
+    return "success!", 200
+
 @app.route('/search_symptom', methods=["GET"])
 def search_sympton():
 
@@ -52,27 +112,27 @@ def search_sympton():
     rv = cur.fetchall()
     cur.close()
     column = [item[0] for item in  rv]
-    return json.dump(column)
+    return json.dumps(column)
 
-@app.route('/user_count', methods=["GET"])
-def get_user_size():
-    cur = mysql.connection.cursor()
-    query = f"SELECT COUNT(user_id) FROM User"
+# @app.route('/user_count', methods=["GET"])
+# def get_user_size():
+#     cur = mysql.connection.cursor()
+#     query = f"SELECT COUNT(user_id) FROM User"
     
-    try:
-        cur.execute(query)
-    except Exception as e:
-        return str(e), 500
+#     try:
+#         cur.execute(query)
+#     except Exception as e:
+#         return str(e), 500
     
-    rv = cur.fetchall()
-    cur.close()
-    #for char in str(rv):
-    #    if char not in ['0','1','2','3','4','5','6','7','8','9']:
-    s = str(rv)
-    s = s.replace('(', '').replace(')', '').replace(',', '')
-    if not s:
-        s = 0
-    return str(s)
+#     rv = cur.fetchall()
+#     cur.close()
+#     #for char in str(rv):
+#     #    if char not in ['0','1','2','3','4','5','6','7','8','9']:
+#     s = str(rv)
+#     s = s.replace('(', '').replace(')', '').replace(',', '')
+#     if not s:
+#         s = 0
+#     return str(s)
 
 @app.route('/insert', methods=["POST"])
 def insert_records():

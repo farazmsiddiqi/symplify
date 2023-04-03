@@ -4,3 +4,4 @@ flask-mysqldb
 python-dotenv
 requests
 Flask-Cors
+Flask-Session2
