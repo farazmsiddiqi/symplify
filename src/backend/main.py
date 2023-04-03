@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_mysqldb import MySQL
 import os
+import json
 from dotenv import load_dotenv
 from flask_cors import CORS
 
@@ -50,8 +51,8 @@ def search_sympton():
     
     rv = cur.fetchall()
     cur.close()
-    s = str(rv)
-    return s
+    column = [item[0] for item in  rv]
+    return json.dump(column)
 
 @app.route('/user_count', methods=["GET"])
 def get_user_size():
