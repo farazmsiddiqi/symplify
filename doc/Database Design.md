@@ -68,9 +68,7 @@ age INT,
 sex VARCHAR(255),
 country VARCHAR(255),
 FOREIGN KEY (user_id) REFERENCES User(user_id),
-FOREIGN KEY (username) REFERENCES User(username),
-PRIMARY KEY(user_id, username)
-);
+FOREIGN KEY (username) REFERENCES User(username));
 
 CREATE TABLE UserTracks (
 trackable_id INT NOT NULL,
