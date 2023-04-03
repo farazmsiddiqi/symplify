@@ -63,7 +63,26 @@ def login():
     session["username"] = username
     return "success!", 200
 
+@app.route("/delete_usertrack", methods = ["POST"])
+def delete_usertrack():
+    data = request.get_json()
+    trackable_id = data["trackableId"]
 
+    if session.get("username") is None:
+       return "user is not logged in", 400
+
+    username = session.get("username")
+    cur = mysql.connection.cursor()
+
+    query = f"DELETE FROM UserTrack WHERE username = '{username}' AND trackable_id = '{trackable_id}'"
+
+    try:
+        cur.execute(query)
+    except Exception as e:
+        return str(e), 500
+    cur.close()
+
+    return "success!", 200
 
 @app.route("/update_user", methods = ["POST"])
 def update_user():
@@ -73,8 +92,8 @@ def update_user():
     new_sex = data["sex"]
     new_country = data["country"]
 
-    if session.get("user_id") is None:
-       return "user is not logged in", 500
+    if session.get("username") is None:
+       return "user is not logged in", 400
 
     username = session.get("username")
     cur = mysql.connection.cursor()
@@ -142,15 +161,15 @@ def insert_records():
   weak_trackable_table_names = ['Condition', 'Symptom', 'Treatment', 'Tag', 'Weather']
 
   if table_name == "User":
-    return handle_user_table(data['user_id'], data['username'], data['password'], data['email'])
+    return handle_user_table(data['username'], data['password'], data['email'])
   elif table_name in weak_trackable_table_names:
     return handle_weak_trackable_tables(table_name, data['trackable_id'], data['trackable_name'], data['trackable_value'])
   elif table_name == "Trackable":
     return handle_trackable_table(data['trackable_id'], data['trackable_type'])
   elif table_name == "Demographics":
-    return handle_demographics_table(data['user_id'], data['age'], data['sex'], data['country'])
+    return handle_demographics_table(data['username'], data['age'], data['sex'], data['country'])
   elif table_name == "UserTracks":
-    return handle_usertracks_table(data['trackable_id'], data['user_id'])
+    return handle_usertracks_table(data['trackable_id'], data['username'])
 
   cur = mysql.connection.cursor()
   cur.execute('SELECT * FROM Symptom')
@@ -177,7 +196,7 @@ def handle_trackable_table(trackable_id, trackable_type):
 
 def handle_demographics_table(user_id, age, sex, country):
   cur = mysql.connection.cursor()
-  query = f"INSERT INTO Demographics (user_id, age, sex, country) VALUES ('{user_id}', CAST('{age}' AS SIGNED), '{sex}', '{country}')"
+  query = f"INSERT INTO Demographics (username, age, sex, country) VALUES ('{user_id}', CAST('{age}' AS SIGNED), '{sex}', '{country}')"
 
   try:
     cur.execute(query)
@@ -193,7 +212,7 @@ def handle_demographics_table(user_id, age, sex, country):
 
 def handle_usertracks_table(trackable_id, user_id):
   cur = mysql.connection.cursor()
-  query = f"INSERT INTO UserTracks (trackable_id, user_id) VALUES (CAST('{trackable_id}' AS SIGNED), '{user_id}')"
+  query = f"INSERT INTO UserTracks (trackable_id, username) VALUES (CAST('{trackable_id}' AS SIGNED), '{user_id}')"
 
   try:
     cur.execute(query)
@@ -228,7 +247,7 @@ def handle_weak_trackable_tables(table_name, trackable_id, trackable_name, track
 
 def handle_user_table(user_id, username, password, email):
   cur = mysql.connection.cursor()
-  query = f"INSERT INTO User (user_id, username, password, email) VALUES ('{user_id}', '{username}', '{password}', '{email}')"
+  query = f"INSERT INTO User (username, password, email) VALUES ('{username}', '{password}', '{email}')"
   
   try:
     cur.execute(query)
