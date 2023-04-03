@@ -67,16 +67,14 @@ username VARCHAR(255) NOT NULL,
 age INT,
 sex VARCHAR(255),
 country VARCHAR(255),
-FOREIGN KEY (user_id) REFERENCES User(user_id),
-FOREIGN KEY (username) REFERENCES User(username));
+FOREIGN KEY (user_id, username) REFERENCES User(user_id, username));
 
 CREATE TABLE UserTracks (
 trackable_id INT NOT NULL,
 user_id VARCHAR(255) NOT NULL,
 username VARCHAR(255) NOT NULL,
 FOREIGN KEY (trackable_id) REFERENCES Trackable(trackable_id),
-FOREIGN KEY (user_id) REFERENCES User(user_id),
-FOREIGN KEY (username) REFERENCES User(username)
+FOREIGN KEY (user_id, username) REFERENCES User(user_id, username)
 );
 
 ```
