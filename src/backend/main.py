@@ -43,8 +43,9 @@ def hello_world():
     rv = cur.fetchall()
     return str(rv)
 
-@app.route("/whoami", methods=["POST"])
+@app.route("/whoami", methods=["GET"])
 def whoami():
+  print(session.get("username"))
   if session.get("username") is None:
     return "user is not logged in", 400
   return str(session.get("username")), 200
@@ -97,6 +98,7 @@ def login():
     if len(rv) <= 0:
        return "user does not exist", 403
     session["username"] = username
+    print(session.get("username"))
     return "success!", 200
 
 @app.route("/delete_usertrack", methods = ["POST"])

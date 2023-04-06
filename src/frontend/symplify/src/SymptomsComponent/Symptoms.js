@@ -6,6 +6,24 @@ function Symptoms() {
     const [searchInput, setSearchInput] = useState("");
     const [querySymptoms, setQuerySymptoms] = useState([]);
     const [userSymptoms, setUserSymptoms] = useState([]);
+    const [username, setUsername] = useState([]);
+
+    useEffect(() => {
+        async function fetchUsername()  {
+        try {
+            const response = await fetch('http://127.0.0.1:5000/whoami', {
+                method: 'GET',
+                credentials: 'include'
+            }
+            )
+            const user = await response.data;
+            setUsername(user);}
+        catch (error) {
+            console.log(error);
+        }
+        }
+        fetchUsername();
+    }, [])
 
     const handleChange = (e) => {
         setSearchInput(e.target.value.toLowerCase());
@@ -41,6 +59,7 @@ function Symptoms() {
     return (
     <div>
       <h1>Symptoms</h1>
+      {username}
       <input className="searchbar"
           type="search"
           placeholder={"search for symptoms..."}
