@@ -47,8 +47,7 @@ function Login() {
         }
         console.log(response);
         // Account successfully made -> redirect
-        //window.open("/login");
-        window.alert("Login successful");
+        window.open("/symptoms");
     })
     .catch(error => {
         console.error(error);

@@ -1,0 +1,22 @@
+
+.searchbar {
+    width: 500px;
+    padding-left: 1.6rem;
+    padding-top: 5px;
+    border-radius: 20px;
+    appearance: none;
+    margin-top: 2%;
+    font-size: 20px;
+    border-top: none;
+    margin-left: 3px;
+
+    height: 40px;
+    background-image: url(https://cdn2.hubspot.net/hubfs/4004166/bioticresearch_website_assets/images/search_icon.png);
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left: 40px;
+    background-color: #fff;
+    border: 1px solid #000;
+    box-shadow: none;
+    -webkit-appearance: none;
+}

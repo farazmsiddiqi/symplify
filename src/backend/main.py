@@ -115,7 +115,7 @@ def update_user():
     return "success!", 200
 
 @app.route('/search_symptom', methods=["GET"])
-def search_sympton():
+def search_symptom():
 
     data = request.get_json()
     symptom_name = data["symptomSearch"]

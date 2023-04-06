@@ -2,6 +2,8 @@ import './App.css';
 import Login from './LoginComponent/Login.js';
 import Register from './RegisterComponent/Register.js'
 import Home from './HomeComponent/Home.js'
+import Symptoms from './SymptomsComponent/Symptoms.js'
+
 
 import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 
@@ -22,6 +24,7 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/" element={<Home/>}/>
+          <Route path="/symptoms" element={<Symptoms/>}/>
         </Routes>
 
     </div>
