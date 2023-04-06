@@ -12,6 +12,9 @@ app = Flask(__name__)
 
 SECRET_KEY=b'xcfxc7xb3xe9Pxb7x9cx96xfcx85xa9xd1'
 SESSION_TYPE = "filesystem"
+SESSION_COOKIE_SAMESITE="None"
+SESSION_COOKIE_SECURE=True
+
 app.config.from_object(__name__)
 Session(app)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
