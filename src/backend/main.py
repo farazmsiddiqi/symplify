@@ -62,7 +62,7 @@ def user_symptom():
   username = session.get("username")
 
   cur = mysql.connection.cursor()
-  query = f"SELECT trackable_id, trackable_name FROM Symptom NATURAL JOIN UserTracks WHERE username = '{username}'"
+  query = f"SELECT DISTINCT trackable_id, trackable_name FROM Symptom NATURAL JOIN UserTracks WHERE username = '{username}'"
 
   try:
         cur.execute(query)
@@ -115,12 +115,14 @@ def delete_usertrack():
     username = session.get("username")
     cur = mysql.connection.cursor()
 
-    query = f"DELETE FROM UserTrack WHERE username = '{username}' AND trackable_id = '{trackable_id}'"
+    query = f"DELETE FROM UserTracks WHERE username = '{username}' AND trackable_id = '{trackable_id}'"
 
     try:
         cur.execute(query)
     except Exception as e:
+        print(str(e))
         return str(e), 500
+    mysql.connection.commit()
     cur.close()
 
     return "success!", 200
@@ -151,6 +153,7 @@ def update_user():
         cur.execute(query)
     except Exception as e:
         return str(e), 500
+    mysql.connection.commit()
     cur.close()
 
     return "success!", 200
@@ -161,7 +164,7 @@ def search_symptom():
     symptom_name = request.args.get('searchSymptom', "", type=str)
 
     cur = mysql.connection.cursor()
-    query = f"SELECT trackable_id, trackable_name FROM Symptom WHERE trackable_name LIKE '{symptom_name}%' LIMIT 10"
+    query = f"SELECT DISTINCT trackable_id, trackable_name FROM Symptom WHERE trackable_name LIKE '{symptom_name}%' LIMIT 10"
 
     try:
         cur.execute(query)
@@ -258,12 +261,13 @@ def handle_demographics_table(user_id, age, sex, country):
 
 def handle_usertracks_table(trackable_id, user_id):
   cur = mysql.connection.cursor()
-  query = f"INSERT INTO UserTracks (trackable_id, username) VALUES (CAST('{trackable_id}' AS SIGNED), '{user_id}')"
-
+  query =  f"INSERT INTO UserTracks (trackable_id, username) SELECT CAST('{trackable_id}' AS SIGNED), '{user_id}' WHERE NOT EXISTS (SELECT trackable_id, username FROM UserTracks t2 WHERE t2.trackable_id = CAST('{trackable_id}' AS SIGNED) AND t2.username = '{user_id}');"
+ 
   try:
     cur.execute(query)
   
   except Exception as e:
+    print(str(e))
     return str(e), 500
   
   mysql.connection.commit()
