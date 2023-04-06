@@ -4,3 +4,4 @@ from dataclasses import dataclass
 class SearchSymptom:
     trackableId: int
     trackableName: str
+    

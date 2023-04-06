@@ -43,6 +43,40 @@ def hello_world():
     rv = cur.fetchall()
     return str(rv)
 
+@app.route("/whoami", methods=["POST"])
+def whoami():
+  if session.get("username") is None:
+    return "user is not logged in", 400
+  return str(session.get("username")), 200
+
+
+@app.route("/user_symptom", methods=["GET"])
+def user_symptom():
+  if session.get("username") is None:
+    return "user is not logged in", 400
+  
+  username = session.get("username")
+
+  cur = mysql.connection.cursor()
+  query = f"SELECT trackable_id, trackable_name FROM Symptom NATURAL JOIN UserTracks WHERE username = '{username}'"
+
+  try:
+        cur.execute(query)
+  except Exception as e:
+        return str(e), 500
+    
+  rv = cur.fetchall()
+  cur.close()
+
+  ids = []
+  for entry in rv:
+      ids.append(SearchSymptom(entry[0], entry[1]))
+
+  data_dict = [dataclasses.asdict(data) for data in ids]
+  return json.dumps(data_dict)
+
+
+
 @app.route("/login", methods = ["GET", "POST"])
 def login():
     data = request.get_json()
