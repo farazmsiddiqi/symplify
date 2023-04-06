@@ -2,3 +2,4 @@
 /src/frontend/symplify/node_modules
 .env
 .venv
+src/backend/flask_session

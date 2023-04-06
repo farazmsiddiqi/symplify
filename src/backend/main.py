@@ -1,10 +1,12 @@
 from flask import Flask, request, session
+import dataclasses
 from flask_mysqldb import MySQL
 import os
 import json
 from dotenv import load_dotenv
 from flask_cors import CORS
 from flask_session import Session
+from searchSymptom import SearchSymptom
 
 app = Flask(__name__)
 
@@ -129,8 +131,14 @@ def search_symptom():
     
     rv = cur.fetchall()
     cur.close()
-    ids = [item[0] for item in rv]
-    return json.dumps(column)
+
+    ids = []
+    for entry in rv:
+       ids.append(SearchSymptom(entry[0], entry[1]))
+
+    #ids = [item[0] for item in rv]
+    data_dict = [dataclasses.asdict(data) for data in ids]
+    return json.dumps(data_dict)
 
 # @app.route('/user_count', methods=["GET"])
 # def get_user_size():
