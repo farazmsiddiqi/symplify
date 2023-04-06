@@ -117,11 +117,10 @@ def update_user():
 @app.route('/search_symptom', methods=["GET"])
 def search_symptom():
 
-    data = request.get_json()
-    symptom_name = data["symptomSearch"]
+    symptom_name = request.args.get('searchSymptom', "", type=str)
 
     cur = mysql.connection.cursor()
-    query = f"SELECT trackable_name FROM Symptom WHERE trackable_name LIKE '{symptom_name}%' LIMIT 10"
+    query = f"SELECT trackable_id, trackable_name FROM Symptom WHERE trackable_name LIKE '{symptom_name}%' LIMIT 10"
 
     try:
         cur.execute(query)
@@ -130,7 +129,7 @@ def search_symptom():
     
     rv = cur.fetchall()
     cur.close()
-    column = [item[0] for item in  rv]
+    ids = [item[0] for item in rv]
     return json.dumps(column)
 
 # @app.route('/user_count', methods=["GET"])
@@ -171,11 +170,11 @@ def insert_records():
   elif table_name == "UserTracks":
     return handle_usertracks_table(data['trackable_id'], data['username'])
 
-  cur = mysql.connection.cursor()
-  cur.execute('SELECT * FROM Symptom')
-  rv = cur.fetchall()
+  #cur = mysql.connection.cursor()
+  #cur.execute('SELECT * FROM Symptom')
+  #rv = cur.fetchall()
   #cur.close()
-  return str(rv)
+  return "success", 200
 
 
 def handle_trackable_table(trackable_id, trackable_type):

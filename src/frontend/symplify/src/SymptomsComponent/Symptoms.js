@@ -10,31 +10,29 @@ function Symptoms() {
         setSearchInput(e.target.value.toLowerCase());
     }; 
 
+    const handleSymptomInsert = (e) => {
+        
+    };
+
     useEffect(() => {
         if (searchInput.length > 0) {
-            var data = {
-                "symptomSearch": searchInput
-            }
-            // Make fetch call to search route 
-            fetch('http://127.0.0.1:5000/search_symptom', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                    },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                if (response.status >= 400 && response.status < 600) {
-                  throw new Error("Bad response from server");
+            async function fetchData() {
+                try {
+                    var url = new URL('http://127.0.0.1:5000/search_symptom')
+                    const params = new URLSearchParams({
+                        searchSymptom: searchInput
+                    })
+                    url.search = params.toString();
+                    const response = await fetch(url)
+                    const json = await response.json();;
+                    setQuerySymptoms(json);
+                } catch (error) {
+                    console.log(error);
                 }
-                console.log(response);
-                
-                // Set received data
-            })
-            .catch(error => {
-                console.error(error);
-            });
-            // set query symptoms 
+            }
+            fetchData();
+        } else {
+            setQuerySymptoms([]);
         }
     }, [searchInput]);
 
@@ -42,13 +40,26 @@ function Symptoms() {
     return (
     <div>
       <h1>Symptoms</h1>
-      {querySymptoms}
       <input className="searchbar"
           type="search"
           placeholder={"search for symptoms..."}
           onChange={handleChange}
           value={searchInput} />
-
+        <div>
+        <h2>Add the below symptoms:</h2>
+        <div id="symptomsContainer">
+            {querySymptoms.map((l) => {
+                return (
+                <button id="symptomBox" onClick={handleSymptomInsert(l)}>
+                    {l}
+                </button>
+            )}
+            )}    
+            </div>
+        </div>
+        <div>
+        <h2>Your current symptoms:</h2>
+        </div>
     </div>
   );
 }
