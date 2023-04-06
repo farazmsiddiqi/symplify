@@ -5,13 +5,14 @@ import './Symptoms.css';
 function Symptoms() {
     const [searchInput, setSearchInput] = useState("");
     const [querySymptoms, setQuerySymptoms] = useState([]);
+    const [userSymptoms, setUserSymptoms] = useState([]);
 
     const handleChange = (e) => {
         setSearchInput(e.target.value.toLowerCase());
     }; 
 
-    const handleSymptomInsert = (e) => {
-        
+    const handleSymptomInsert = (trackableId) => {
+        // make a request to add user tracks (trackableId, username)
     };
 
     useEffect(() => {
@@ -50,8 +51,8 @@ function Symptoms() {
         <div id="symptomsContainer">
             {querySymptoms.map((l) => {
                 return (
-                <button id="symptomBox" onClick={handleSymptomInsert(l)}>
-                    {l}
+                <button id="symptomBox" onClick={handleSymptomInsert(l.trackableId)}>
+                    {l.trackableName}
                 </button>
             )}
             )}    
