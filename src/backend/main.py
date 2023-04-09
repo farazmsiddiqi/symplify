@@ -80,6 +80,27 @@ def user_symptom():
   return json.dumps(data_dict)
 
 
+@app.route("/symptom_name", methods = ["GET"])
+def symptom_name():
+  trackable_id = request.args.get('trackableId', 0, type=int)
+  #symptom_name = request.args.get('trackableId', "", type=str)
+
+  cur = mysql.connection.cursor()
+  query = f"SELECT trackable_name FROM Symptom WHERE trackable_id = '{trackable_id}'"
+
+  try:
+      cur.execute(query)
+  except Exception as e:
+      return str(e), 500
+
+  rv = cur.fetchall()
+  cur.close()
+
+  trackable_name = [item[0] for item in rv][0]
+
+  return trackable_name
+   
+
 
 @app.route("/login", methods = ["GET", "POST"])
 def login():
@@ -127,6 +148,27 @@ def delete_usertrack():
 
     return "success!", 200
 
+
+@app.route("/update_symptom", methods = ["POST"])
+def update_symptom():
+    data = request.get_json()
+    new_name = data["symptomName"]
+    trackableId = data["trackableId"]
+
+    query = f"UPDATE Symptom SET trackable_name = '{new_name}' WHERE trackable_id = '{trackableId}'"
+    
+    cur = mysql.connection.cursor()
+
+    try:
+        cur.execute(query)
+    except Exception as e:
+        return str(e), 500
+    mysql.connection.commit()
+    cur.close()
+
+    return "success!", 200
+
+
 @app.route("/update_user", methods = ["POST"])
 def update_user():
     
@@ -160,7 +202,6 @@ def update_user():
 
 @app.route('/search_symptom', methods=["GET"])
 def search_symptom():
-
     symptom_name = request.args.get('searchSymptom', "", type=str)
 
     cur = mysql.connection.cursor()

@@ -47,7 +47,7 @@ function Login() {
         }
         console.log(response);
         // Account successfully made -> redirect
-        window.open("/symptoms");
+        window.open("/symptoms", "_self");
     })
     .catch(error => {
         console.error(error);
@@ -59,9 +59,9 @@ function Login() {
     <div>
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
-        <label htmlFor="username">Username:</label>
+        <label htmlFor="username">Username: &ensp;</label>
         <input type="text" id="username" name="username" value={username} onChange={handleUsernameChange} /><br/><br/>
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="password">Password: &ensp;</label>
         <input type="password" id="password" name="password" value={password} onChange={handlePasswordChange} /><br/><br/>
         <button type="submit">Login</button>
       </form>

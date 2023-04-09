@@ -73,6 +73,10 @@ function Symptoms() {
                 console.error(error);
             }); }
 
+    const handleSymptomRoute = (trackableID) => {
+        window.open(`/symptom/${trackableID}`, '_start')
+    }
+
     const handleSymptomInsert = (trackableID) => {
         // make a request to add user tracks (trackableId, username)
         var data = {
@@ -137,7 +141,7 @@ function Symptoms() {
         <div id="symptomsContainer">
             {querySymptoms.map((l) => {
                 return (<div> 
-                <button id="symptomBox">
+                <button id="symptomBox" onClick={() => handleSymptomRoute(l.trackableId)}>
                     {l.trackableName}
                 </button>
                 <button id="symptomBox" onClick={() => handleSymptomInsert(l.trackableId)}>
@@ -154,7 +158,7 @@ function Symptoms() {
             {userSymptoms.map((l) => {
                 return ( 
                 <div className="singleContainer">
-                <button id="symptomBox">
+                <button id="symptomBox" onClick={() => handleSymptomRoute(l.trackableId)}>
                     {l.trackableName}
                 </button>
                 <button id="symptomBox" onClick={() => handleSymptomDelete(l.trackableId)}>

@@ -3,7 +3,7 @@ import Login from './LoginComponent/Login.js';
 import Register from './RegisterComponent/Register.js'
 import Home from './HomeComponent/Home.js'
 import Symptoms from './SymptomsComponent/Symptoms.js'
-
+import SymptomDetail from './SymptomDetailComponent/SymptomDetail.js'
 
 import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 
@@ -25,6 +25,7 @@ function App() {
           <Route path="/register" element={<Register/>}/>
           <Route path="/" element={<Home/>}/>
           <Route path="/symptoms" element={<Symptoms/>}/>
+          <Route path="/symptom/:id" element={<SymptomDetail/>}/>
         </Routes>
 
     </div>

@@ -71,7 +71,7 @@ function Register() {
         }
         console.log(response);
         // Account successfully made -> redirect
-        window.open("/login");
+        window.open("/login", "_self");
     })
     .catch(error => {
         console.error(error);
@@ -85,11 +85,11 @@ function Register() {
     <div>
       <h2>Create an Account</h2>
       <form onSubmit={handleCreateAccount}>
-        <label htmlFor="username">Username: </label>
+        <label htmlFor="username">Username: &ensp;</label>
         <input type="text" id="username" name="username" value={username} onChange={handleUsernameChange} /><br/><br/>
-        <label htmlFor="email">Email: </label>
+        <label htmlFor="email">Email: &ensp;</label>
         <input type="email" id="email" name="email" value={email} onChange={handleEmailChange} /><br/><br/>
-        <label htmlFor="password">Password: </label>
+        <label htmlFor="password">Password: &ensp;</label>
         <input type="password" id="password" name="password" value={password} onChange={handlePasswordChange} /><br/><br/>
         { errorMessage &&
         <h3 className="error"> {errorMessage } </h3> }
