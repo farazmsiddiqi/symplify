@@ -6,24 +6,23 @@ function SymptomDetail() {
     const [trackableName, setTrackableName] = useState("");
     const {id} = useParams(); // trackable ID of symptom
     const [updatedName, setUpdatedName] = useState('');
-
+    async function fetchTrackableName()  {
+        var strId = parseInt(id)
+        try {
+            const response = await fetch(`http://127.0.0.1:5000/symptom_name?trackableId=${strId}`)
+            const trackable_name = await response.text();
+            setTrackableName(trackable_name);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
     useEffect(() => {
-        async function fetchTrackableName()  {
-            var strId = parseInt(id)
-            try {
-                var url = new URL('http://127.0.0.1:5000/symptom_name')
-                const response = await fetch(`http://127.0.0.1:5000/symptom_name?trackableId=${strId}`)
-                const trackable_name = await response.text();
-                setTrackableName(trackable_name);
-            }
-            catch (error) {
-                console.log(error);
-            }
-        };
         fetchTrackableName();
     }, []);
 
     const handleUpdate = (e) => {
+        e.preventDefault();
         const data = {
             symptomName: updatedName,
             trackableId: id 
@@ -42,7 +41,7 @@ function SymptomDetail() {
             throw new Error("Bad response from server");
             }
             console.log(response);
-            // Account successfully made -> redirect
+            setTrackableName(updatedName);
         })
         .catch(error => {
             console.error(error);
@@ -51,7 +50,7 @@ function SymptomDetail() {
 
     const handleInputChange = (event) => {
         setUpdatedName(event.target.value);
-      };
+    };
 
 
   return (

@@ -8,6 +8,7 @@ from flask_cors import CORS
 from flask_session import Session
 from searchSymptom import SearchSymptom
 from searchSymptom import PopularSymptom
+from searchSymptom import ConditionsTreatments
 
 app = Flask(__name__)
 
@@ -80,7 +81,6 @@ def user_symptom():
   data_dict = [dataclasses.asdict(data) for data in ids]
   return json.dumps(data_dict)
 
-
 @app.route("/popular_symptoms", methods = ["GET"])
 def popular_symptoms():
   cur = mysql.connection.cursor()
@@ -101,7 +101,26 @@ def popular_symptoms():
   data_dict = [dataclasses.asdict(data) for data in symps]
   return json.dumps(data_dict)
    
+@app.route("/conditions_treatments", methods = ["GET"])
+def conditions_treatments():
+  cur = mysql.connection.cursor()
+  query = f"SELECT d.trackable_name as Diagnosis, t.trackable_name as Treatment, COUNT(t.trackable_name) as NumTreatments, t.trackable_value as Dosage FROM Treatment t RIGHT JOIN Diagnosis d ON (t.trackable_id = d.trackable_id) WHERE t.trackable_name IS NOT NULL GROUP BY d.trackable_name, t.trackable_name, t.trackable_value ORDER BY NumTreatments DESC LIMIT 30;"
 
+  try:
+      cur.execute(query)
+  except Exception as e:
+      return str(e), 500
+
+  rv = cur.fetchall()
+  cur.close()
+
+  symps = []
+  for entry in rv:
+      symps.append(ConditionsTreatments(entry[0], entry[1], entry[2], entry[3]))
+
+  data_dict = [dataclasses.asdict(data) for data in symps]
+  return json.dumps(data_dict)
+   
 
 @app.route("/symptom_name", methods = ["GET"])
 def symptom_name():
@@ -123,7 +142,10 @@ def symptom_name():
 
   return trackable_name
    
-
+@app.route("/logout")
+def logout():
+   session.pop("username", None)
+   return "logout success", 200
 
 @app.route("/login", methods = ["GET", "POST"])
 def login():
@@ -177,6 +199,7 @@ def update_symptom():
     data = request.get_json()
     new_name = data["symptomName"]
     trackableId = data["trackableId"]
+    print(new_name)
 
     query = f"UPDATE Symptom SET trackable_name = '{new_name}' WHERE trackable_id = '{trackableId}'"
     

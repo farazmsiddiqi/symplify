@@ -9,3 +9,10 @@ class SearchSymptom:
 class PopularSymptom:
     symptom: str
     numDiagnoses: int
+
+@dataclass
+class ConditionsTreatments:
+    diagnosis: str
+    treatment: str
+    numTreatments: int
+    dosage: str

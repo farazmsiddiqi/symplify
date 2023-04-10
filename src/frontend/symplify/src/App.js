@@ -4,6 +4,7 @@ import Register from './RegisterComponent/Register.js'
 import Home from './HomeComponent/Home.js'
 import Symptoms from './SymptomsComponent/Symptoms.js'
 import SymptomDetail from './SymptomDetailComponent/SymptomDetail.js'
+import Conditions from './ConditionsComponent/Conditions.js'
 
 import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 import { useEffect, useState } from "react";
@@ -31,6 +32,23 @@ function App() {
     
     checkLoggedIn();
 
+    const handleLogout = () => {
+      async function logout()  {
+        try {
+            const response = await fetch('http://127.0.0.1:5000/logout', {
+                method: 'GET',
+                credentials: 'include'
+            }
+            )
+            setIsLoggedIn(false);
+        }
+        catch (error) {
+            console.log(error);
+        }
+      };
+      logout();
+    }
+
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
     <div className="App">
@@ -39,7 +57,9 @@ function App() {
           <ul>
             <li><Link  to="/">home</Link></li>
             {isLoggedIn === false && (<li><Link  to="/login">login</Link></li>)}
-            {isLoggedIn === true && (<li><Link  to="/symptoms" >symptoms</Link></li>)}
+            {isLoggedIn === true && (<li><Link  to="/symptoms">symptoms</Link></li>)}
+            {isLoggedIn === true && (<li><Link  to="/conditions">conditions</Link></li>)}
+            {isLoggedIn === true && (<li onClick={() => handleLogout()}><Link  to="/" >logout</Link></li>)}
           </ul>
         </nav>
       </header>
@@ -50,6 +70,7 @@ function App() {
           <Route path="/" element={<Home/>}/>
           <Route path="/symptoms" element={<Symptoms/>}/>
           <Route path="/symptom/:id" element={<SymptomDetail/>}/>
+          <Route path="/conditions" element={<Conditions/>}/>
         </Routes>
 
     </div>

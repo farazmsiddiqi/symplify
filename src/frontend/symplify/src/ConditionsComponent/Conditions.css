@@ -1,0 +1,17 @@
+.popularBox {
+    margin: auto;
+    margin-bottom: 30px;
+}
+
+.popularBox {
+    overflow: auto;
+    height: 400px;
+}
+  
+.popularBox thead th {
+    position: sticky;
+    top: 0;
+}
+
+table { border-collapse: collapse; width: 100%; }
+th, td { background: #fff; padding: 8px 16px; }
