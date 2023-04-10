@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 from flask_session import Session
 from searchSymptom import SearchSymptom
+from searchSymptom import PopularSymptom
 
 app = Flask(__name__)
 
@@ -78,6 +79,28 @@ def user_symptom():
 
   data_dict = [dataclasses.asdict(data) for data in ids]
   return json.dumps(data_dict)
+
+
+@app.route("/popular_symptoms", methods = ["GET"])
+def popular_symptoms():
+  cur = mysql.connection.cursor()
+  query = f"SELECT s.trackable_name as Symptom, COUNT(d.trackable_name) as NumDiagnoses FROM Symptom s LEFT JOIN Diagnosis d ON (s.trackable_id = d.trackable_id) GROUP BY s.trackable_name ORDER BY NumDiagnoses DESC LIMIT 30;"
+
+  try:
+      cur.execute(query)
+  except Exception as e:
+      return str(e), 500
+
+  rv = cur.fetchall()
+  cur.close()
+
+  symps = []
+  for entry in rv:
+      symps.append(PopularSymptom(entry[0], entry[1]))
+
+  data_dict = [dataclasses.asdict(data) for data in symps]
+  return json.dumps(data_dict)
+   
 
 
 @app.route("/symptom_name", methods = ["GET"])

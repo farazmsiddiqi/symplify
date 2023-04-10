@@ -7,6 +7,7 @@ function Symptoms() {
     const [querySymptoms, setQuerySymptoms] = useState([]);
     const [userSymptoms, setUserSymptoms] = useState([]);
     const [username, setUsername] = useState([]);
+    const [popularSymptoms, setPopularSymptoms] = useState([]);
 
     async function fetchSymptoms()  {
         try {
@@ -23,6 +24,7 @@ function Symptoms() {
         }
     };
 
+    // Use this hook for first runtime processes
     useEffect(() => {
         async function fetchUsername()  {
         try {
@@ -42,6 +44,22 @@ function Symptoms() {
 
         // Load current symptoms
         fetchSymptoms();
+
+        // Load popular symptoms
+        async function fetchPopularSymptoms()  {
+            try {
+                const response = await fetch('http://127.0.0.1:5000/popular_symptoms', {
+                    method: 'GET'
+                }
+                )
+                const data = await response.json();
+                setPopularSymptoms(data);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        fetchPopularSymptoms();
     }, [])
 
     const handleChange = (e) => {
@@ -168,6 +186,25 @@ function Symptoms() {
             )}
             )}    
             </div>
+        <h2>Here are some popular symptoms: </h2>
+        <div className="popularBox">
+        <table className="symptomTable">
+            <thead>
+            <tr>
+                <th>Symptom</th>
+                <th>Number of Related Diagnoses</th>
+            </tr>
+            </thead>
+            <tbody>
+                {popularSymptoms.map((item) => (
+                <tr key={item.id}>
+                <td>{item.symptom}</td>
+                <td>{item.numDiagnoses}</td>
+                </tr>
+            ))}
+            </tbody>
+        </table>
+        </div>
         </div>
     </div>
   );
