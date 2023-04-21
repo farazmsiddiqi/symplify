@@ -159,10 +159,10 @@ function Symptoms() {
         <div id="symptomsContainer">
             {querySymptoms.map((l) => {
                 return (<div> 
-                <button id="symptomBox" onClick={() => handleSymptomRoute(l.trackableId)}>
+                <button id="symptomBox" className='rounded-button' onClick={() => handleSymptomRoute(l.trackableId)}>
                     {l.trackableName}
                 </button>
-                <button id="symptomBox" onClick={() => handleSymptomInsert(l.trackableId)}>
+                <button id="symptomBox"  className='plus-button' onClick={() => handleSymptomInsert(l.trackableId)}>
                 +
                 </button>
                 </div>
@@ -176,10 +176,10 @@ function Symptoms() {
             {userSymptoms.map((l) => {
                 return ( 
                 <div className="singleContainer">
-                <button id="symptomBox" onClick={() => handleSymptomRoute(l.trackableId)}>
+                <button id="symptomBox" className='rounded-button'  onClick={() => handleSymptomRoute(l.trackableId)}>
                     {l.trackableName}
                 </button>
-                <button id="symptomBox" onClick={() => handleSymptomDelete(l.trackableId)}>
+                <button id="symptomBox" className='minus-button' onClick={() => handleSymptomDelete(l.trackableId)}>
                 -
                 </button>
                 </div>
@@ -187,6 +187,7 @@ function Symptoms() {
             )}    
             </div>
         <h2>Here are some popular symptoms: </h2>
+        <div className='expl'>View this list to see how common the symptoms you're feeling are across diagnoses. You should use this information to become aware that these are not defining symptoms, and if you are experiencing these symptoms then you may have trouble figuring out the cause. Please see a doctor before making any self-diagnoses. </div>
         <div className="popularBox">
         <table className="symptomTable">
             <thead>

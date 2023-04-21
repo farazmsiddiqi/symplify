@@ -55,15 +55,15 @@ function SymptomDetail() {
 
   return (
     <div>
-        <input type="button" value="Back" onClick={() => window.open("/symptoms", "_start")}/> 
+        <input type="button" className='back-button' value="Back" onClick={() => window.open("/symptoms", "_start")}/> 
         <h1>{trackableName}</h1>
 
     <form onSubmit={handleUpdate}>
       <label>
         Rename this symptom: &ensp;
-        <input type="text" value={updatedName} onChange={handleInputChange}/>
+        <input type="text" className='submitBar' value={updatedName} onChange={handleInputChange}/>
       </label>
-      <button type="submit">Submit</button>
+      <button className='submit-button' type="submit">Submit</button>
     </form>
     </div>
   );

@@ -39,3 +39,62 @@
 table { border-collapse: collapse; width: 100%; }
 th, td { background: #fff; padding: 8px 16px; }
 
+
+.expl {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.plus-button {
+    border: none;
+    border-radius: 50%;
+    color: white;
+    background-color: green;
+    padding: 3px px;
+    margin: 3px;
+    font-size: 1.2rem;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+  
+.plus-button:hover {
+transform: scale(1.05);
+cursor: pointer;
+background-color: #0a2905;
+}
+
+.minus-button {
+    border: none;
+    border-radius: 50%;
+    color: white;
+    background-color: red;
+    padding: 3px 10px;
+    margin: 3px;
+    font-size: 1.2rem;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+  
+.minus-button:hover {
+transform: scale(1.05);
+cursor: pointer;
+background-color: #750000;
+}
+
+.rounded-button {
+    border: none;
+    border-radius: 8px;
+    color: white;
+    background-color: #f1bb1b;
+    margin: 5px;
+    height: 30px;
+    font-size: 1.2rem;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.rounded-button:hover {
+transform: scale(1.05);
+cursor: pointer;
+background-color: #ad840b;
+}
