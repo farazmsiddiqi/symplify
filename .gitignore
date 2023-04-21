@@ -3,3 +3,4 @@
 .env
 .venv
 src/backend/flask_session
+*pycache*

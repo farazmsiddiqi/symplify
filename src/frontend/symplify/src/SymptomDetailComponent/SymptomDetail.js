@@ -52,21 +52,49 @@ function SymptomDetail() {
         setUpdatedName(event.target.value);
     };
 
+    const performSearch = () => {
+        // Get the search query entered by the user
+        var query = document.getElementById("searchQuery").value;
+        
+        // Set the number of search results to retrieve
+        var numResults = 10;
+        
+        // Construct the Google search URL
+        var url = "https://www.google.com/search?q=" + encodeURIComponent(query) + "&num=" + numResults;
 
-  return (
-    <div>
-        <input type="button" className='back-button' value="Back" onClick={() => window.open("/symptoms", "_start")}/> 
-        <h1>{trackableName}</h1>
+        if (query == "") {
+            window.alert("You didn't search anything! Type a symptom into the box to search it up.")
+            return;
+        }
 
-    <form onSubmit={handleUpdate}>
-      <label>
-        Rename this symptom: &ensp;
-        <input type="text" className='submitBar' value={updatedName} onChange={handleInputChange}/>
-      </label>
-      <button className='submit-button' type="submit">Submit</button>
-    </form>
-    </div>
-  );
+        // Open the Google search URL in a new window
+        window.open(url, "_blank");
+    }
+
+    return (
+        <div>
+            <input type="button" className='back-button' value="Back" onClick={() => window.open("/symptoms", "_start")}/> 
+            <h1>{trackableName}</h1>
+
+            <form onSubmit={handleUpdate}>
+                <label>
+                    Rename this symptom: &ensp;
+                    <input type="text" className='submitBar' value={updatedName} onChange={handleInputChange}/>
+                </label>
+                <button className='submit-button' type="submit">Submit</button>
+            </form>
+
+            <div>
+                <label>
+                    Search this symptom: &ensp;
+                </label>
+                <input type="text" className='searchBar' id="searchQuery" placeholder="ex: headache" />
+                <button className='search-button' onClick={performSearch}>Search</button>
+            </div>
+
+            <ul id="searchResults"></ul>
+        </div>
+    );
 }
 
 export default SymptomDetail;
