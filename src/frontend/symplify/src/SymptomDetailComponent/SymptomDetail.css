@@ -83,3 +83,20 @@ background-color: #ad840b;
     box-shadow: none;
     -webkit-appearance: none;
 }
+
+.diagnosisBox {
+    overflow: auto;
+    height: 500px;
+    margin: auto;
+    margin-bottom: 30px;
+}
+  
+.diagnosisBox thead th {
+    position: sticky;
+    top: 0;
+}
+
+table { border-collapse: collapse; 
+    width: 100%;
+ }
+th, td { background: #fff; padding: 8px 16px; }

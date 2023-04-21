@@ -81,6 +81,22 @@ def user_symptom():
   data_dict = [dataclasses.asdict(data) for data in ids]
   return json.dumps(data_dict)
 
+@app.route("/diagnoses_of_symptom", methods = ["GET"])
+def diagnoses_of_symptom():
+    cur = mysql.connection.cursor()
+    trackable_id = request.args.get('trackableId', 0, type=int)
+    query = f"SELECT DISTINCT s.trackable_name FROM RawData s WHERE s.trackable_type = 'Condition'  AND s.user_id IN (SELECT p.user_id FROM RawData p WHERE p.trackable_id = {trackable_id} AND p.trackable_type = 'Symptom') ORDER BY s.trackable_name;"
+    try:
+          cur.execute(query)
+    except Exception as e:
+          return str(e), 500
+      
+    rv = cur.fetchall()
+    cur.close()
+
+    diagnoses = [item[0] for item in rv]
+    return diagnoses
+
 @app.route("/popular_symptoms", methods = ["GET"])
 def popular_symptoms():
   cur = mysql.connection.cursor()

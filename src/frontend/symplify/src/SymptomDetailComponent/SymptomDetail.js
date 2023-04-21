@@ -6,6 +6,7 @@ function SymptomDetail() {
     const [trackableName, setTrackableName] = useState("");
     const {id} = useParams(); // trackable ID of symptom
     const [updatedName, setUpdatedName] = useState('');
+    const [diagnoses, setDiagnoses] = useState([]);
     async function fetchTrackableName()  {
         var strId = parseInt(id)
         try {
@@ -17,8 +18,22 @@ function SymptomDetail() {
             console.log(error);
         }
     };
+
+    async function fetchDiagnoses() {
+        var strId = parseInt(id)
+        try {
+            const response = await fetch(`http://127.0.0.1:5000/diagnoses_of_symptom?trackableId=${strId}`)
+            const diagnoses = await response.json();
+            setDiagnoses(diagnoses);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         fetchTrackableName();
+        fetchDiagnoses();
     }, []);
 
     const handleUpdate = (e) => {
@@ -75,7 +90,6 @@ function SymptomDetail() {
         <div>
             <input type="button" className='back-button' value="Back" onClick={() => window.open("/symptoms", "_start")}/> 
             <h1>{trackableName}</h1>
-
             <form onSubmit={handleUpdate}>
                 <label>
                     Rename this symptom: &ensp;
@@ -83,7 +97,7 @@ function SymptomDetail() {
                 </label>
                 <button className='submit-button' type="submit">Submit</button>
             </form>
-
+            
             <div>
                 <label>
                     Search this symptom: &ensp;
@@ -91,8 +105,25 @@ function SymptomDetail() {
                 <input type="text" className='searchBar' id="searchQuery" placeholder="ex: headache" />
                 <button className='search-button' onClick={performSearch}>Search</button>
             </div>
-
             <ul id="searchResults"></ul>
+            <br></br>
+            <span>These are all the diagnoses identified by users who experience this symptom.</span>
+            <div className="diagnosisBox">
+            <table>
+            <thead>
+            <tr>
+                <th>Related Diagnosis</th>
+            </tr>
+            </thead>
+            <tbody>
+                {diagnoses.map((item) => (
+                <tr key={item}>
+                <td>{item}</td>
+                </tr>
+            ))}
+            </tbody>
+            </table>
+            </div>
         </div>
     );
 }
