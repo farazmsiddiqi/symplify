@@ -215,15 +215,17 @@ def update_symptom():
     data = request.get_json()
     new_name = data["symptomName"]
     trackableId = data["trackableId"]
-    print(new_name)
-
+    username = data["user"]
+    query_user = f"SET @user = '{username}'"
     query = f"UPDATE Symptom SET trackable_name = '{new_name}' WHERE trackable_id = '{trackableId}'"
     
     cur = mysql.connection.cursor()
 
     try:
+        cur.execute(query_user)
         cur.execute(query)
     except Exception as e:
+        print(str(e))
         return str(e), 500
     mysql.connection.commit()
     cur.close()
@@ -400,7 +402,7 @@ def handle_weak_trackable_tables(table_name, trackable_id, trackable_name, track
 
 def handle_user_table(username, password, email):
   cur = mysql.connection.cursor()
-  query = f"INSERT INTO User (username, password, email) VALUES ('{username}', '{password}', '{email}')"
+  query = f"INSERT INTO User (username, password, email, admin) VALUES ('{username}', '{password}', '{email}', 0)"
   
   try:
     cur.execute(query)

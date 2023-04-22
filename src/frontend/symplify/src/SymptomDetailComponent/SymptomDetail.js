@@ -7,6 +7,8 @@ function SymptomDetail() {
     const {id} = useParams(); // trackable ID of symptom
     const [updatedName, setUpdatedName] = useState('');
     const [diagnoses, setDiagnoses] = useState([]);
+    const [username, setUsername] = useState('');
+
     async function fetchTrackableName()  {
         var strId = parseInt(id)
         try {
@@ -18,6 +20,20 @@ function SymptomDetail() {
             console.log(error);
         }
     };
+    async function fetchUsername()  {
+        try {
+            const response = await fetch('http://127.0.0.1:5000/whoami', {
+                method: 'GET',
+                credentials: 'include'
+            }
+            )
+            const user = await response.text();
+            setUsername(user);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 
     async function fetchDiagnoses() {
         var strId = parseInt(id)
@@ -32,6 +48,7 @@ function SymptomDetail() {
     }
 
     useEffect(() => {
+        fetchUsername();
         fetchTrackableName();
         fetchDiagnoses();
     }, []);
@@ -40,7 +57,8 @@ function SymptomDetail() {
         e.preventDefault();
         const data = {
             symptomName: updatedName,
-            trackableId: id 
+            trackableId: id,
+            user: username
         }
 
         fetch('http://127.0.0.1:5000/update_symptom', {
@@ -51,14 +69,16 @@ function SymptomDetail() {
             credentials: 'include',
             body: JSON.stringify(data)
         })
-        .then(response => {
+        .then(async response => {
             if (response.status >= 400 && response.status < 600) {
-            throw new Error("Bad response from server");
+                const text = await response.text()
+                throw new Error(text);
             }
             console.log(response);
             setTrackableName(updatedName);
         })
         .catch(error => {
+            window.alert(error);
             console.error(error);
         });
     }
