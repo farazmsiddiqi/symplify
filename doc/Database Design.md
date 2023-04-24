@@ -128,9 +128,6 @@ Please see the below screenshots to view the schemas for the implemented tables,
 
 ![schemas3](images/schemas3.PNG)
 
-
-
-
 ![query counts](images/count_queries.PNG)
 ![query count2](images/counts3.PNG)
 
