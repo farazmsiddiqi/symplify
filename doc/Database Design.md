@@ -124,7 +124,7 @@ Overall, our indexing strategies were not effective in improving performance. Th
 Please see the below screenshots to view the schemas for the implemented tables, as well as the row counts for each table. 
 ![schemas](images/schemas.PNG)
 
-![schemas2](images/schemas2.PNG)
+![schemas2](images/schemas2.png)
 
 ![schemas3](images/schemas3.PNG)
 
