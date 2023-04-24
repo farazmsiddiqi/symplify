@@ -8,6 +8,7 @@ function SymptomDetail() {
     const [updatedName, setUpdatedName] = useState('');
     const [diagnoses, setDiagnoses] = useState([]);
     const [username, setUsername] = useState('');
+    const [treatmentPercents, setTreatmentPercents] = useState([]);
 
     async function fetchTrackableName()  {
         var strId = parseInt(id)
@@ -20,6 +21,19 @@ function SymptomDetail() {
             console.log(error);
         }
     };
+
+    async function fetchTreatmentPercents() {
+        var strId = parseInt(id)
+        try {
+            const response = await fetch(`http://127.0.0.1:5000/symptom_procedure?trackableId=${strId}`)
+            const data = await response.json();
+            setTreatmentPercents(data);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
     async function fetchUsername()  {
         try {
             const response = await fetch('http://127.0.0.1:5000/whoami', {
@@ -35,22 +49,11 @@ function SymptomDetail() {
         }
     }
 
-    async function fetchDiagnoses() {
-        var strId = parseInt(id)
-        try {
-            const response = await fetch(`http://127.0.0.1:5000/diagnoses_of_symptom?trackableId=${strId}`)
-            const diagnoses = await response.json();
-            setDiagnoses(diagnoses);
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
 
     useEffect(() => {
         fetchUsername();
         fetchTrackableName();
-        fetchDiagnoses();
+        fetchTreatmentPercents();
     }, []);
 
     const handleUpdate = (e) => {
@@ -90,14 +93,14 @@ function SymptomDetail() {
     const performSearch = () => {
         // Get the search query entered by the user
         var query = document.getElementById("searchQuery").value;
-        
+
         // Set the number of search results to retrieve
         var numResults = 10;
-        
-        // Construct the Google search URL
-        var url = "https://www.google.com/search?q=" + encodeURIComponent(query) + "&num=" + numResults;
 
-        if (query == "") {
+        // Construct the Google search URL
+        var url = "https://www.google.com/search?q=" + "from:mayo clinic what is the symptom: " + encodeURIComponent(query) + "&num=" + numResults;
+
+        if (query === "") {
             window.alert("You didn't search anything! Type a symptom into the box to search it up.")
             return;
         }
@@ -106,13 +109,14 @@ function SymptomDetail() {
         window.open(url, "_blank");
     }
 
+
     return (
         <div>
             <input type="button" className='back-button' value="Back" onClick={() => window.open("/symptoms", "_start")}/> 
             <h1>{trackableName}</h1>
             <form onSubmit={handleUpdate}>
                 <label>
-                    Rename this symptom: &ensp;
+                 (ADMIN ONLY) Rename this symptom: &ensp;
                     <input type="text" className='submitBar' value={updatedName} onChange={handleInputChange}/>
                 </label>
                 <button className='submit-button' type="submit">Submit</button>
@@ -127,18 +131,21 @@ function SymptomDetail() {
             </div>
             <ul id="searchResults"></ul>
             <br></br>
-            <span>These are all the diagnoses identified by users who experience this symptom.</span>
+            <h2>Top Treatments</h2>
+            <span>These are the percent of users experiencing "{trackableName}" who use each of the below top treatments.</span>
             <div className="diagnosisBox">
             <table>
             <thead>
             <tr>
-                <th>Related Diagnosis</th>
+                <th>Treatments Name</th>
+                <th>Percent of Users</th>
             </tr>
             </thead>
             <tbody>
-                {diagnoses.map((item) => (
+                {treatmentPercents.map((item) => (
                 <tr key={item}>
-                <td>{item}</td>
+                <td>{item.treatmentName}</td>
+                <td>{`${item.percent}%`}</td>
                 </tr>
             ))}
             </tbody>

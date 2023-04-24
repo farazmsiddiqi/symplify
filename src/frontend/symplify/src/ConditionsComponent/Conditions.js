@@ -25,8 +25,8 @@ function Conditions() {
     return (
         <div>
         <h1>Conditions</h1>
-        <br></br>
         <h2>Common Treatments for Diagnoses</h2>
+        <p>Here are some of the most common treatments for diagnoses. Please note that the user count is unique to the treatment and diagnoses pair.</p>
         <div className="popularBox">
         <table>
             <thead>

@@ -9,6 +9,7 @@ from flask_session import Session
 from searchSymptom import SearchSymptom
 from searchSymptom import PopularSymptom
 from searchSymptom import ConditionsTreatments
+from searchSymptom import TreatmentPercent
 
 app = Flask(__name__)
 
@@ -80,6 +81,28 @@ def user_symptom():
 
   data_dict = [dataclasses.asdict(data) for data in ids]
   return json.dumps(data_dict)
+
+@app.route("/symptom_procedure", methods = ["GET"])
+def symptom_procedure():
+  cur = mysql.connection.cursor()
+  trackable_id = request.args.get('trackableId', 0, type=int)
+  query = f"CALL PercentTreatmentsUsers({trackable_id})"
+
+  try:
+      cur.execute(query)
+  except Exception as e:
+      return str(e), 500
+
+  rv = cur.fetchall()
+  cur.close()
+
+  ids = []
+  for entry in rv:
+      ids.append(TreatmentPercent(entry[0], entry[1]))
+
+  data_dict = [dataclasses.asdict(data) for data in ids]
+  return json.dumps(data_dict)
+
 
 @app.route("/diagnoses_of_symptom", methods = ["GET"])
 def diagnoses_of_symptom():

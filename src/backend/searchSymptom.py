@@ -6,6 +6,10 @@ class SearchSymptom:
     trackableName: str
         
 @dataclass
+class TreatmentPercent:
+    treatmentName: str
+    percent: float
+@dataclass
 class PopularSymptom:
     symptom: str
     numDiagnoses: int
