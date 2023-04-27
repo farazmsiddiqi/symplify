@@ -126,10 +126,10 @@ Please see the below screenshots to view the schemas for the implemented tables,
 
 ![schemas2](images/schemas2.png)
 
-![schemas3](images/schemas3.PNG)
+![schemas3](images/schemas3.png)
 
 ![query counts](images/count_queries.PNG)
-![query count2](images/counts3.PNG)
+![query count2](images/counts3.png)
 
 This shows our connection.
 
