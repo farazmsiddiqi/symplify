@@ -10,7 +10,7 @@ CREATE TABLE KaggleTopLevel (
     trackable_type VARCHAR(255),
     trackable_name VARCHAR(255),
     trackable_value VARCHAR(255),
-    PRIMARY KEY(username)
+    PRIMARY KEY(username, trackable_id, trackable_name, trackable_value)
 );
 
 CREATE TABLE Diagnosis (
