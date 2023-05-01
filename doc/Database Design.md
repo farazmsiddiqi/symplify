@@ -48,13 +48,6 @@ CREATE TABLE User (
     PRIMARY KEY(username)
 );
 
-CREATE TABLE Demographics (
-    username VARCHAR(255) NOT NULL,
-    age INT,
-    sex VARCHAR(255),
-    country VARCHAR(255),
-    FOREIGN KEY (username) REFERENCES User(username)
-);
 
 CREATE TABLE UserTracks (
     trackable_id INT NOT NULL,
